@@ -6,17 +6,16 @@
         {
             if (index < 1 || index > 100)
                 throw new ArgumentOutOfRangeException("index");
-            
-            if (index % 3 == 0 && index % 5 == 0)
-                return "FizzBuzz";
 
+            var response = "";
+            
             if (index % 3 == 0)
-                return "Fizz";
+                response += "Fizz";
 
             if (index % 5 == 0)
-                return "Buzz";
+                response += "Buzz";
 
-            return index.ToString();
+            return response.Length == 0 ? index.ToString() : response; 
         }
     }
 }
