@@ -2,11 +2,6 @@ namespace FizzBuzz.Tests
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         static int[] ValidIndexNumbers = new int[] { 1, 2, 4, 7, 8, 11, 13, 14 };
         static int[] ByThreeNumbers = new int[] { 3, 6, 9, 12 };
         static int[] ByFiveNumbers = new int[] { 5, 10, 20, 25, 100 };
