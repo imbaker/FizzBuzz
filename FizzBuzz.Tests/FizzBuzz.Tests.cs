@@ -2,10 +2,10 @@ namespace FizzBuzz.Tests
 {
     public class Tests
     {
-        static int[] ValidIndexNumbers = new int[] { 1, 2, 4, 7, 8, 11, 13, 14 };
-        static int[] ByThreeNumbers = new int[] { 3, 6, 9, 12 };
-        static int[] ByFiveNumbers = new int[] { 5, 10, 20, 25, 100 };
-        static int[] ByThreeAndFiveNumbers = new int[] { 15, 30, 45, 60, 75, 90 };
+        private static readonly int[] ValidIndexNumbers = new int[] { 1, 2, 4, 7, 8, 11, 13, 14 };
+        private static readonly int[] ByThreeNumbers = new int[] { 3, 6, 9, 12 };
+        private static readonly int[] ByFiveNumbers = new int[] { 5, 10, 20, 25, 100 };
+        private static readonly int[] ByThreeAndFiveNumbers = new int[] { 15, 30, 45, 60, 75, 90 };
 
         [Test, TestCaseSource(nameof(ValidIndexNumbers))]
         public void WhenValidIndexProvided_ReturnIndex(int index)

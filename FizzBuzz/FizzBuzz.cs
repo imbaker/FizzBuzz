@@ -5,7 +5,7 @@
         public static string Process(int index)
         {
             if (index < 1 || index > 100)
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             var response = "";
             
