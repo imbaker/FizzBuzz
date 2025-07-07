@@ -1,46 +1,52 @@
 namespace FizzBuzz.Tests
 {
-    public class Tests
+    public class FizzBuzzTests
     {
-        private static readonly int[] ValidIndexNumbers = new int[] { 1, 2, 4, 7, 8, 11, 13, 14 };
-        private static readonly int[] ByThreeNumbers = new int[] { 3, 6, 9, 12 };
-        private static readonly int[] ByFiveNumbers = new int[] { 5, 10, 20, 25, 100 };
-        private static readonly int[] ByThreeAndFiveNumbers = new int[] { 15, 30, 45, 60, 75, 90 };
+        private const string? Fizz = "Fizz";
+        private const string? Buzz = "Buzz";
+        
+        public static TheoryData<int> ValidIndexNumbers => new TheoryData<int> { 1, 2, 4, 7, 8, 11, 13, 14 };
+        public static TheoryData<int> InvalidIndexNumbers => new TheoryData<int> { 0, 101 };
+        public static TheoryData<int> DivisibleByThreeNumbers => new TheoryData<int> { 3, 6, 9, 12 };
+        public static TheoryData<int> DivisibleByFiveNumbers = new TheoryData<int> { 5, 10, 20, 25, 100 };
+        public static TheoryData<int> DivisibleByThreeAndFiveNumbers = new TheoryData<int> { 15, 30, 45, 60, 75, 90 };
 
-        [Test, TestCaseSource(nameof(ValidIndexNumbers))]
-        public void WhenValidIndexProvided_ReturnIndex(int index)
+        [Theory, MemberData(nameof(ValidIndexNumbers))]
+        public void Process_When_Valid_Index_Is_Provided_Return_Index(int expectedIndex)
         {
-            var sut = FizzBuzz.Process(index);
-            Assert.That(sut, Is.EqualTo(index.ToString()));
+            var sut = FizzBuzz.Process(expectedIndex);
+            sut.ShouldBe(expectedIndex.ToString());
         }
 
-        [Test, TestCaseSource(nameof(ByThreeNumbers))]
-        public void WhenIndexProvidedDivisibleByThree_ReturnFizz(int index)
+        [Theory, MemberData(nameof(DivisibleByThreeNumbers))]
+        public void Process_When_Index_Provided_Is_Divisible_By_Three_Return_Fizz(int expectedIndex)
         {
-            var sut = FizzBuzz.Process(index);
-            Assert.That(sut, Is.EqualTo("Fizz"));
-        } 
-
-        [Test, TestCaseSource(nameof(ByFiveNumbers))]
-        public void WhenIndexProvidedDivisibleByFive_ReturnBuzz(int index)
-        {
-            var sut = FizzBuzz.Process(index);
-            Assert.That(sut, Is.EqualTo("Buzz"));
+            var sut = CreateSubjectUnderTest(expectedIndex);
+            sut.ShouldBe(Fizz);
         }
 
-        [Test, TestCaseSource(nameof(ByThreeAndFiveNumbers))]
-        public void WhenIndexProvidedDivisibleByThreeAndFive_ReturnFizzBuzz(int index)
+        [Theory, MemberData(nameof(DivisibleByFiveNumbers))]
+        public void Process_When_Index_Provided_Is_Divisible_By_Five_Return_Buzz(int expectedIndex)
         {
-            var sut = FizzBuzz.Process(index);
-            Assert.That(sut, Is.EqualTo("FizzBuzz"));
+            var sut = CreateSubjectUnderTest(expectedIndex);
+            sut.ShouldBe(Buzz);
         }
-
-        [TestCase(0)]
-        [TestCase(101)]
-        public void WhenIndexProvidedOutOfRange_ThrowException(int index)
+        
+        [Theory, MemberData(nameof(DivisibleByThreeAndFiveNumbers))]
+        public void Process_When_Index_Provided_Is_Divisible_By_Three_And_Five_Return_FizzBuzz(int expectedIndex)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(delegate { var sut = FizzBuzz.Process(index); });
+            var sut = CreateSubjectUnderTest(expectedIndex);
+            sut.ShouldBe($"{Fizz}{Buzz}");
         }
-
+        
+        [Theory, MemberData(nameof(InvalidIndexNumbers))]
+        public void Process_When_Index_Provided_Is_OutOfRange_Throw_ArgumentOutOfRangeException(int actualIndex)
+        {
+            const string expectedMessage = "Specified argument was out of the range of valid values. (Parameter 'index')";
+            Should.Throw<ArgumentOutOfRangeException>(() => CreateSubjectUnderTest(actualIndex))
+                .Message.ShouldBe(expectedMessage);
+        }
+        
+        private static string CreateSubjectUnderTest(int expectedIndex) => FizzBuzz.Process(expectedIndex);
     }
 }
